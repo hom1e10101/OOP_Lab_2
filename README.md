@@ -23,7 +23,7 @@ cmake ..
 make
 
 # Запуск основной программы
-./box_capacity
+./Box_Capacity
 
 # Запуск тестов
-./test_box_capacity
+./test_Box_Capacity
