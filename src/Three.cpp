@@ -1,8 +1,5 @@
 #include "Three.h"
-// #include <iostream>
-// #include <string>
 #include <new>
-// #include <cmath>
 
 void Three::pop()
 {
@@ -57,7 +54,13 @@ Three::Three(const Three& other)
 Three::Three(const std::initializer_list<unsigned int>& t) 
     : size(t.size()), capacity(t.size()), data(new unsigned int[t.size()])
 {
+    // for (auto i : t) {
+    //     push_back(i);
+    // }
     std::copy(t.begin(), t.end(), data);
+    for (size_t i = 0; i < t.size() / 2; ++i) {
+        std::swap(data[i], data[size - i - 1]);
+    }
 }
 
 std::ostream& operator<<(std::ostream& os, const Three& Tr)
@@ -68,7 +71,8 @@ std::ostream& operator<<(std::ostream& os, const Three& Tr)
     return os;
 }
 
-Three Three::operator+(const Three& other) const {
+Three Three::operator+(const Three& other) const
+{
     Three result;
     size_t n = std::max(size, other.size);
 
@@ -110,7 +114,8 @@ Three Three::operator+(const Three& other) const {
 }
 
 
-Three Three::operator-(const Three& other) const {
+Three Three::operator-(const Three& other) const
+{
     Three result;
     size_t n = std::max(size, other.size);
     
@@ -152,7 +157,8 @@ Three Three::operator-(const Three& other) const {
     return result;
 }
 
-int Three::comp(const Three& other) const {
+int Three::comp(const Three& other) const
+{
     if (size != other.size) {
         return (size > other.size) ? 1 : -1;
     }
@@ -166,26 +172,32 @@ int Three::comp(const Three& other) const {
     return 0;
 }
 
-bool Three::operator==(const Three& other) const {
+bool Three::operator==(const Three& other) const
+{
     return (comp(other) == 0);
 }
 
-bool Three::operator!=(const Three& other) const {
+bool Three::operator!=(const Three& other) const
+{
     return (comp(other) != 0);
 }
 
-bool Three::operator<=(const Three& other) const {
+bool Three::operator<=(const Three& other) const
+{
     return (comp(other) <= 0);
 }
 
-bool Three::operator>=(const Three& other) const {
+bool Three::operator>=(const Three& other) const
+{
     return (comp(other) >= 0);
 }
 
-bool Three::operator<(const Three& other) const {
+bool Three::operator<(const Three& other) const
+{
     return (comp(other) < 0);
 }
 
-bool Three::operator>(const Three& other) const {
+bool Three::operator>(const Three& other) const
+{
     return (comp(other) > 0);
 }

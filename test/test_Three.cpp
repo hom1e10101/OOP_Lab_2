@@ -5,8 +5,13 @@
 TEST(TestThree, BasicConv) {
     int aD = 10;
     Three a(aD);
-    Three ans({1, 0, 1});
-    EXPECT_EQ(a, ans);
+    Three ansa({1, 0, 1});
+    EXPECT_EQ(a, ansa);
+
+    int bD = 3;
+    Three b(bD);
+    Three ansb({1, 0});
+    EXPECT_EQ(b, ansb);
 }
 
 TEST(TestThree, BasicAdding) {
@@ -30,9 +35,9 @@ TEST(TestThree, BasicSublime) {
     int aD = 10, bD = 2;
     Three a(aD), b(bD);
     auto res = a - b;
-    std::cerr << res << "\n";
+    // std::cerr << res << "\n";
     auto ans = Three(aD - bD);
-    std::cerr << ans << "\n";
+    // std::cerr << ans << "\n";
     EXPECT_EQ(res, ans);
 }
 
