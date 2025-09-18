@@ -1,10 +1,15 @@
 #include <iostream>
-#include "Box_Capacity.h"
+#include "Three.h"
 
 int main(int argc, char** argv) {
-    int w, l, h;
-    std::cin >> w >> l >> h;
-
-    std::cout << Box_Capacity(w, l, h) << "\n";
+    unsigned int aD, bD;
+    std::cin >> aD >> bD;
+    Three a(aD);
+    Three b(bD);
+    Three res1 = a - b;
+    std::cout << res1 << std::endl;
+    Three res2 = a - b;
+    // res2.print();
+    std::cout << res2 << std::endl;
     return 0;
 }
