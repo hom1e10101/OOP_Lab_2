@@ -1,147 +1,97 @@
-#include "Three.h"
 #include <new>
 
-void Three::pop()
-{
-    if (size > 0) size--;
-}
+#include "Three.h"
+#include "MyVector.h"
 
-void Three::push_back(const unsigned int& n)
-{
-    if (size >= capacity) {
-        capacity *= 2;
-        unsigned int* next = new unsigned int[capacity];
-        std::copy(data, data + size, next);
-        delete[] data;
-        data = next;
-        // data = (unsigned int*) realloc(data, sizeof(unsigned int) * capacity);
-    }
-    data[size] = n;
-    size++;
-}
-
-Three::Three() : size(0), capacity(1), data(new unsigned int[1]) {}
+Three::Three() : data() {}
 
 Three::Three(int n)
-    : size(0), capacity(1), data(new unsigned int[1])
+    : data()
 {
     if (n <= 0) {
-        push_back(0);
+        data.push_back(0);
         return;
     }
     while (n > 0) {
-        push_back(n % 3);
+        data.push_back(n % 3);
         n /= 3;
     }
 }
 
-Three::~Three() noexcept
-{
-    size = 0;
-    capacity = 1;
-    delete[] data;
-    data = nullptr;
-}
+Three::~Three() noexcept {}
 
+Three::Three(const Three& other) : data(other.data) {}
 
-Three::Three(const Three& other)
-    : size(other.size), capacity(other.capacity), data(new unsigned int[other.capacity])
-{
-    std::copy(other.data, other.data + other.size, data);
-}
+Three::Three(const std::initializer_list<unsigned char>& t)
+    : data(t) {}
 
-
-Three::Three(const std::initializer_list<unsigned int>& t) 
-    : size(t.size()), capacity(t.size()), data(new unsigned int[t.size()])
-{
-    // for (auto i : t) {
-    //     push_back(i);
-    // }
-    std::copy(t.begin(), t.end(), data);
-    for (size_t i = 0; i < t.size() / 2; ++i) {
-        std::swap(data[i], data[size - i - 1]);
-    }
-}
-
-std::ostream& operator<<(std::ostream& os, const Three& Tr)
-{
-    for (int i = (int)Tr.size - 1; i >= 0; --i) {
-        os << Tr.data[i];
-    }
-    return os;
-}
-
-Three Three::operator+(const Three& other) const
-{
+Three add(const Three& a, const Three& b) {
     Three result;
-    size_t n = std::max(size, other.size);
+    size_t n = std::max(a.data.size, b.data.size);
 
-    
-    int added = 0;
+    long long added = 0;
     for (size_t i = 0; i < n; ++i) {
-        if (i < size && i < other.size) {
-            if (data[i] + other.data[i] + added >= 3) {
-                result.push_back(data[i] + other.data[i] + added - 3);
+        if (i < a.data.size && i < b.data.size) {
+            if (a.data.get(i) + b.data.get(i) + added >= 3) {
+                result.data.push_back(a.data.get(i) + b.data.get(i) + added - 3);
                 added = 1;
             } else {
-                result.push_back(data[i] + other.data[i] + added);
+                result.data.push_back(a.data.get(i) + b.data.get(i) + added);
                 added = 0;
             }
-        } else if (i < size) {
-            if (data[i] + added >= 3) {
-                result.push_back(data[i] + added - 3);
+        } else if (i < a.data.size) {
+            if (a.data.get(i) + added >= 3) {
+                result.data.push_back(a.data.get(i) + added - 3);
                 added = 1;
             } else {
-                result.push_back(data[i] + added);
+                result.data.push_back(a.data.get(i) + added);
                 added = 0;
             }
-        } else if (i < other.size) {
-            if (other.data[i] + added >= 3) {
-                result.push_back(other.data[i] + added - 3);
+        } else if (i < b.data.size) {
+            if (b.data.get(i) + added >= 3) {
+                result.data.push_back(b.data.get(i) + added - 3);
                 added = 1;
             } else {
-                result.push_back(other.data[i] + added);
+                result.data.push_back(b.data.get(i) + added);
                 added = 0;
             }
         }
     }
     if (added) {
-        result.push_back(added);
+        result.data.push_back(added);
         added = 0;
     }
     
     return result;
 }
 
-
-Three Three::operator-(const Three& other) const
-{
+Three sub(const Three& a, const Three& b) {
     Three result;
-    size_t n = std::max(size, other.size);
+    size_t n = std::max(a.data.size, b.data.size);
     
-    if (size < other.size) return Three(0);
+    if (a.data.size < b.data.size) return Three(0);
 
-    int added = 0;
+    long long added = 0;
     for (size_t i = 0; i < n; ++i) {
         
-        if (i < size && i < other.size) {
+        if (i < a.data.size && i < b.data.size) {
             // std::cerr << "\tpipiska " << (long)data[i] - other.data[i] - added << "\n";
-            if ((long)data[i] - other.data[i] - added < 0) {
-                result.push_back(3 + (long)data[i] - other.data[i] - added);
+            if ((long)a.data.get(i) - b.data.get(i) - added < 0) {
+                result.data.push_back(3 + (long)a.data.get(i) - b.data.get(i) - added);
                 added = 1;
             } else {
-                result.push_back((long)data[i] - other.data[i] - added);
+                result.data.push_back((long)a.data.get(i) - b.data.get(i) - added);
                 added = 0;
             }
-        } else if (i < size) {
-            if ((long)data[i] - added < 0) {
-                result.push_back(3 + (long)data[i] - added);
+        } else if (i < a.data.size) {
+            if ((long)a.data.get(i) - added < 0) {
+                result.data.push_back(3 + (long)a.data.get(i) - added);
                 added = 1;
             } else {
-                result.push_back(data[i] - added);
+                result.data.push_back(a.data.get(i) - added);
                 added = 0;
             }
-        } else if (i < other.size) {
+        } else if (i < b.data.size) {
             return Three(0);
         }
     }
@@ -149,55 +99,54 @@ Three Three::operator-(const Three& other) const
         return Three(0);
     }
 
-    // std::cerr << "\tans is = " << result.data[0] << "\n";
-    while (result.size > 0 && result.data[result.size - 1] == 0) {
-        result.pop();
-        // std::cerr << "\t" << result.size << "\n";
+    while (result.data.size > 0 && result.data.get(result.data.size - 1) == 0) {
+        result.data.pop();
     }
     return result;
 }
 
 int Three::comp(const Three& other) const
 {
-    if (size != other.size) {
-        return (size > other.size) ? 1 : -1;
+    if (data.size != other.data.size) {
+        return (data.size > other.data.size) ? 1 : -1;
     }
 
-    for (size_t i = 0; i < size; ++i) {
-        if (data[i] != other.data[i]) {
-            return (data[i] > other.data[i]) ? 1 : -1;
+    for (size_t i = 0; i < data.size; ++i) {
+        if (data.get(i) != other.data.get(i)) {
+            return (data.get(i) > other.data.get(i)) ? 1 : -1;
         }
     }
-    
+
     return 0;
 }
 
-bool Three::operator==(const Three& other) const
-{
-    return (comp(other) == 0);
+
+bool eq(const Three& a, const Three& b) {
+    return (a.comp(b) == 0);
 }
 
-bool Three::operator!=(const Three& other) const
-{
-    return (comp(other) != 0);
+bool noteq(const Three& a, const Three& b) {
+    return (a.comp(b) != 0);
 }
 
-bool Three::operator<=(const Three& other) const
-{
-    return (comp(other) <= 0);
+bool less_or_eq(const Three& a, const Three& b) {
+    return (a.comp(b) <= 0);
 }
 
-bool Three::operator>=(const Three& other) const
-{
-    return (comp(other) >= 0);
+bool bigger_or_eq(const Three& a, const Three& b) {
+    return (a.comp(b) >= 0);
 }
 
-bool Three::operator<(const Three& other) const
-{
-    return (comp(other) < 0);
+bool less(const Three& a, const Three& b) {
+    return (a.comp(b) < 0);
 }
 
-bool Three::operator>(const Three& other) const
-{
-    return (comp(other) > 0);
+bool bigger(const Three& a, const Three& b) {
+    return (a.comp(b) > 0);
+}
+
+void Three::print() {
+    for (size_t i = 0; i < data.size; ++i) {
+        std::cout << (unsigned int)data.get(i);
+    }
 }
