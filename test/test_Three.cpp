@@ -7,23 +7,20 @@ TEST(TestThree, BasicConv) {
     int aD = 10;
     Three a(aD);
     Three ansa({1, 0, 1});
-    a.print();
-    ansa.print();
-    EXPECT_EQ(eq(a, ansa), true);
+    EXPECT_TRUE(eq(a, ansa));
 
     int bD = 3;
     Three b(bD);
     Three ansb({1, 0});
-
-    EXPECT_EQ(eq(b, ansb), true);
+    EXPECT_TRUE(eq(b, ansb));
 }
 
 TEST(TestThree, BasicAdding) {
     int aD = 10, bD = 2;
     Three a(aD), b(bD);
-    auto res = add(a, b);
+    auto res = Three(add(a, b));
     auto ans = Three(aD + bD);
-    EXPECT_EQ(eq(res, ans), true);
+    EXPECT_TRUE(eq(res, ans));
 }
 
 TEST(TestThree, LargeAdding) {
@@ -31,7 +28,7 @@ TEST(TestThree, LargeAdding) {
     Three a(aD), b(bD);
     auto res = add(a, b);
     auto ans = Three(aD + bD);
-    EXPECT_EQ(eq(res, ans), true);
+    EXPECT_TRUE(eq(res, ans));
 }
 
 
@@ -40,7 +37,7 @@ TEST(TestThree, BasicSublime) {
     Three a(aD), b(bD);
     auto res = sub(a, b);
     auto ans = Three(aD - bD);
-    EXPECT_EQ(eq(res, ans), true);
+    EXPECT_TRUE(eq(res, ans));
 }
 
 TEST(TestThree, LargeSublime) {
@@ -48,7 +45,7 @@ TEST(TestThree, LargeSublime) {
     Three a(aD), b(bD);
     auto res = sub(a, b);
     auto ans = Three(aD - bD);
-    EXPECT_EQ(eq(res, ans), true);
+    EXPECT_TRUE(eq(res, ans));
 }
 
 TEST(TestThree, WrongSublime) {
@@ -56,7 +53,7 @@ TEST(TestThree, WrongSublime) {
     Three a(aD), b(bD);
     auto res = sub(a, b);
     auto ans = Three(aD - bD);
-    EXPECT_EQ(eq(res, ans), true);
+    EXPECT_TRUE(eq(res, ans));
 }
 
 TEST(TestThree, CorrectEquals) {
@@ -64,8 +61,8 @@ TEST(TestThree, CorrectEquals) {
     Three a(aD), b(bD);
     auto e = eq(a, b);
     auto neq = noteq(a, b);
-    EXPECT_EQ(e, true);
-    EXPECT_EQ(neq, false);
+    EXPECT_TRUE(e);
+    EXPECT_FALSE(neq);
 }
 
 TEST(TestThree, IncorrectEquals) {
@@ -73,8 +70,8 @@ TEST(TestThree, IncorrectEquals) {
     Three a(aD), b(bD);
     auto e = eq(a, b);
     auto neq = noteq(a, b);
-    EXPECT_EQ(e, false);
-    EXPECT_EQ(neq, true);
+    EXPECT_FALSE(e);
+    EXPECT_TRUE(neq);
 }
 
 
@@ -83,8 +80,8 @@ TEST(TestThree, CorrectLargerTest) {
     Three a(aD), b(bD);
     auto e = bigger_or_eq(a,b);
     auto neq = less(a, b);
-    EXPECT_EQ(e, true);
-    EXPECT_EQ(neq, false);
+    EXPECT_TRUE(e);
+    EXPECT_FALSE(neq);
 }
 
 TEST(TestThree, IncorrectLargerTest) {
@@ -92,8 +89,8 @@ TEST(TestThree, IncorrectLargerTest) {
     Three a(aD), b(bD);
     auto e = bigger_or_eq(a,b);
     auto neq = less(a, b);
-    EXPECT_EQ(e, false);
-    EXPECT_EQ(neq, true);
+    EXPECT_FALSE(e);
+    EXPECT_TRUE(neq);
 }
 
 TEST(TestThree, CorrectSmallerTest) {
@@ -101,8 +98,8 @@ TEST(TestThree, CorrectSmallerTest) {
     Three a(aD), b(bD);
     auto e = less_or_eq(a, b);
     auto neq = bigger(a, b);
-    EXPECT_EQ(e, true);
-    EXPECT_EQ(neq, false);
+    EXPECT_TRUE(e);
+    EXPECT_FALSE(neq);
 }
 
 TEST(TestThree, IncorrectSmallerTest) {
@@ -110,6 +107,6 @@ TEST(TestThree, IncorrectSmallerTest) {
     Three a(aD), b(bD);
     auto e = less_or_eq(a, b);
     auto neq = bigger(a, b);
-    EXPECT_EQ(e, false);
-    EXPECT_EQ(neq, true);
+    EXPECT_FALSE(e);
+    EXPECT_TRUE(neq);
 }

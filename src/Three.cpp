@@ -22,6 +22,12 @@ Three::~Three() noexcept {}
 
 Three::Three(const Three& other) : data(other.data) {}
 
+Three::Three(Three&& other)
+    : data(other.data)
+{
+    other.~Three();
+}
+
 Three::Three(const std::initializer_list<unsigned char>& t)
     : data(t) {}
 

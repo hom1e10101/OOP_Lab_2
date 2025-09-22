@@ -45,6 +45,13 @@ MyVector::MyVector(const MyVector& other)
     std::copy(other.data, other.data + other.size, data);
 }
 
+MyVector::MyVector(MyVector&& other) noexcept
+    : size(other.size), capacity(other.capacity), data(new unsigned char[other.capacity])
+{
+    std::copy(other.data, other.data + other.size, data);
+    other.~MyVector();
+}
+
 MyVector::~MyVector() noexcept
 {
     size = 0;

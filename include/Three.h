@@ -11,6 +11,7 @@ public:
     Three();
     Three(int n);
     Three(const Three& other);
+    Three(Three&& other);
     Three(const std::initializer_list<unsigned char>& t);
     int comp(const Three& other) const;
 

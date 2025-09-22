@@ -12,6 +12,7 @@ public:
     MyVector(const size_t& n);
     MyVector(const std::initializer_list<unsigned char>& t);
     MyVector(const MyVector& other);
+    MyVector(MyVector&& other) noexcept;
 
     void pop();
     void push_back(const unsigned int& n);
