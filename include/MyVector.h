@@ -15,7 +15,7 @@ public:
     MyVector(MyVector&& other) noexcept;
 
     void pop();
-    void push_back(const unsigned int& n);
+    void push_back(const unsigned char& n);
     virtual ~MyVector() noexcept;
     unsigned char get(size_t ind) const;
 };

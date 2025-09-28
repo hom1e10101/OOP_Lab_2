@@ -35,7 +35,7 @@ Three add(const Three& a, const Three& b) {
     Three result;
     size_t n = std::max(a.data.size, b.data.size);
 
-    long long added = 0;
+    unsigned char added = 0;
     for (size_t i = 0; i < n; ++i) {
         if (i < a.data.size && i < b.data.size) {
             if (a.data.get(i) + b.data.get(i) + added >= 3) {
@@ -82,16 +82,16 @@ Three sub(const Three& a, const Three& b) {
         
         if (i < a.data.size && i < b.data.size) {
             // std::cerr << "\tpipiska " << (long)data[i] - other.data[i] - added << "\n";
-            if ((long)a.data.get(i) - b.data.get(i) - added < 0) {
-                result.data.push_back(3 + (long)a.data.get(i) - b.data.get(i) - added);
+            if (a.data.get(i) - b.data.get(i) - added < 0) {
+                result.data.push_back(3 + a.data.get(i) - b.data.get(i) - added);
                 added = 1;
             } else {
-                result.data.push_back((long)a.data.get(i) - b.data.get(i) - added);
+                result.data.push_back(a.data.get(i) - b.data.get(i) - added);
                 added = 0;
             }
         } else if (i < a.data.size) {
-            if ((long)a.data.get(i) - added < 0) {
-                result.data.push_back(3 + (long)a.data.get(i) - added);
+            if (a.data.get(i) - added < 0) {
+                result.data.push_back(3 + a.data.get(i) - added);
                 added = 1;
             } else {
                 result.data.push_back(a.data.get(i) - added);

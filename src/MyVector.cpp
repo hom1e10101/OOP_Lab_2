@@ -6,7 +6,7 @@ void MyVector::pop()
     if (size > 0) size--;
 }
 
-void MyVector::push_back(const unsigned int& n)
+void MyVector::push_back(const unsigned char& n)
 {
     if (size >= capacity) {
         capacity *= 2;
